@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Опросник: стратегия увеличения активного времени (e-commerce) → Структурированный ответ</title>
+<style>
+  :root {
+    --bg:#0f172a;
+    --panel:#0b1225;
+    --card:#121a2b;
+    --muted:#94a3b8;
+    --text:#e5e7eb;
+    --accent:#22c55e;
+    --danger:#ef4444;
+    --warn:#f59e0b;
+    --line:#22304a;
+  }
+  html,body{height:100%;}
+  body {
+    margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background: linear-gradient(180deg, var(--bg), #0b1225 35%, #0b1225);
+    color:var(--text);
+  }
+  .wrap{max-width:1024px;margin:28px auto;padding:0 16px;}
+  .header{background:var(--panel);border:1px solid var(--line); padding:20px;border-radius:16px;}
+  .header h1{margin:0 0 8px 0;font-size:22px;}
+  .header p{margin:4px 0;color:var(--muted);}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:16px;}
+  .card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;}
+  @media (min-width:780px){ .half{grid-column:span 6;} }
+  .opt{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .opt label{display:flex;align-items:center;gap:8px;background:#0e1729;border:1px solid #293247;
+    padding:10px 12px;border-radius:10px;cursor:pointer; user-select:none;}
+  .opt input{accent-color:var(--accent);}
+  .muted{color:var(--muted);font-size:14px;}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
+  button{
+    border-radius:12px; border:1px solid #2d3a52; background:#102038; color:#e6edf5;
+    padding:12px 14px; cursor:pointer; font-weight:600;
+  }
+  button.primary{background:linear-gradient(90deg,#0ea5e9,#22c55e); border:none; color:#091018;}
+  button.warn{background:#2a1b09; border:1px solid #573b0d; color:#ffd28a;}
+  button.reset{background:#1a0f12; border:1px solid #3a1d26; color:#ffb4c2;}
+  .hr{height:1px;background:var(--line);margin:12px 0;}
+  .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid #2a425f;background:#0b1a2a;}
+  .pill.ok{background:#0f3b27;color:#9ff2c6;border:1px solid #1b7f55;}
+  .pill.warn{background:#3b2b0f;color:#ffd28a;border:1px solid #8a661f;}
+  .pill.danger{background:#3b0f0f;color:#ffb4b4;border:1px solid #7f1d1d;}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+  .kpi .box{background:#0b1526;border:1px solid #192a44;border-radius:12px;padding:10px;}
+  .result{background:#0d1b2a;border:1px solid #1b2b45;border-radius:16px;padding:16px;}
+  .rec{background:#0f1c30;border:1px dashed #275087;padding:12px;border-radius:12px;}
+  .section-title{font-weight:700;margin:6px 0 8px 0;}
+  ul{margin:6px 0 8px 18px;}
+  .two-col{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media (min-width:900px){ .two-col{grid-template-columns:1fr 1fr;} }
+  .small{font-size:13px;color:var(--muted);}
+  details{background:#0b1526;border:1px solid #192a44;border-radius:12px;padding:10px;}
+  details summary{cursor:pointer;font-weight:600;}
+  .term{display:grid;grid-template-columns:160px 1fr;gap:10px;align-items:flex-start;margin:6px 0;}
+  .term b{color:#e8eef9;}
+  @media (max-width:640px){ .term{grid-template-columns:1fr;} }
+  #err{display:none;background:#3b0f0f;border:1px solid #7f1d1d;color:#ffb4b4;padding:10px;border-radius:10px;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Опросник → Структурированный ответ для собеседования PM</h1>
+    <p class="muted">Заполните вопросы ниже. Структурированный ответ (цель, выбор стратегии, обоснование, план 30/60/90, KPI, риски и глоссарий) сформируется автоматически.</p>
+    <div id="err"></div>
+  </div>
+
+  <form id="form" class="grid" onsubmit="return false;">
+    <!-- Q1 -->
+    <fieldset class="card">
+      <legend><b>Q1.</b> Наш товар «визуальный»? <span class="muted">(одежда, интерьер, бьюти, гаджеты с дизайном)</span></legend>
+      <div class="opt">
+        <label><input type="radio" name="q1" value="yes" />Да</label>
+        <label><input type="radio" name="q1" value="no" />Нет / скорее нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q2 -->
+    <fieldset class="card half">
+      <legend><b>Q2.</b> Есть 30–50 коротких видео по товарам <span class="muted">(или снимем за 2–3 недели)</span>?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q2" value="yes" />Да</label>
+        <label><input type="radio" name="q2" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q3 -->
+    <fieldset class="card half">
+      <legend><b>Q3.</b> Готовы делать 1 лайв-эфир в неделю?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q3" value="yes" />Да</label>
+        <label><input type="radio" name="q3" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q4 -->
+    <fieldset class="card half">
+      <legend><b>Q4.</b> Уже есть фото/видео-отзывы или «луки» покупателей?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q4" value="yes" />Да</label>
+        <label><input type="radio" name="q4" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q5 -->
+    <fieldset class="card half">
+      <legend><b>Q5.</b> Готовы давать баллы/купоны за активность?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q5" value="yes" />Да</label>
+        <label><input type="radio" name="q5" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q6 -->
+    <fieldset class="card">
+      <legend><b>Q6.</b> Каталог широкий (1000+ SKU) и товары легко собирать «в комплект»?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q6" value="yes" />Да</label>
+        <label><input type="radio" name="q6" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q7 -->
+    <fieldset class="card half">
+      <legend><b>Q7.</b> Можем задать короткий квиз (5–7 вопросов) и показать подборки?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q7" value="yes" />Да</label>
+        <label><input type="radio" name="q7" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q8 -->
+    <fieldset class="card half">
+      <legend><b>Q8.</b> Есть базовые данные (размеры/предпочтения/бюджет/бренды)?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q8" value="yes" />Да</label>
+        <label><input type="radio" name="q8" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q9 -->
+    <fieldset class="card half">
+      <legend><b>Q9.</b> Сайт на телефоне открывается быстро? <span class="muted">(первые экраны ~2–3 сек)</span></legend>
+      <div class="opt">
+        <label><input type="radio" name="q9" value="yes" />Да</label>
+        <label><input type="radio" name="q9" value="no" />Нет / часто «тормозит»</label>
+      </div>
+      <p class="muted">Если «Нет», все стратегии получат штраф −3 и отметку «Сначала ускорение».</p>
+    </fieldset>
+
+    <!-- Q10 -->
+    <fieldset class="card half">
+      <legend><b>Q10.</b> Есть человек для модерации пользовательского контента каждый день?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q10" value="yes" />Да</label>
+        <label><input type="radio" name="q10" value="no" />Нет</label>
+      </div>
+      <p class="muted">Если «Нет», S3 получит штраф −2.</p>
+    </fieldset>
+
+    <!-- Q11 -->
+    <fieldset class="card half">
+      <legend><b>Q11.</b> Есть 2–3 часа в неделю на съемку новых коротких видео?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q11" value="yes" />Да</label>
+        <label><input type="radio" name="q11" value="no" />Нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q12 -->
+    <fieldset class="card half">
+      <legend><b>Q12.</b> Важно строить «сообщество вокруг бренда» (челленджи/уровни/бейджи)?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q12" value="yes" />Да</label>
+        <label><input type="radio" name="q12" value="no" />Не приоритет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q13 -->
+    <fieldset class="card">
+      <legend><b>Q13.</b> Умеем измерять «активное время»? <span class="muted">(вкладка видима, есть скролл/клики, heartbeat 5с)</span></legend>
+      <div class="opt">
+        <label><input type="radio" name="q13" value="yes" />Да</label>
+        <label><input type="radio" name="q13" value="no" />Пока нет</label>
+      </div>
+    </fieldset>
+
+    <!-- Q14 -->
+    <fieldset class="card">
+      <legend><b>Q14.</b> Откуда приходит основной трафик?</legend>
+      <div class="opt">
+        <label><input type="radio" name="q14" value="social" />Соцсети/видео</label>
+        <label><input type="radio" name="q14" value="search" />Поиск с намерением «купить»</label>
+        <label><input type="radio" name="q14" value="direct" />Прямые/рассылки/бренд</label>
+      </div>
+    </fieldset>
+
+    <div class="card">
+      <div class="btns">
+        <button class="primary" id="calc">Посчитать</button>
+        <button class="reset" id="reset">Сбросить</button>
+        <button class="warn" id="copy">Скопировать структурированный ответ</button>
+        <button class="warn" id="download">Скачать .md</button>
+      </div>
+      <div class="hr"></div>
+      <div id="summary" class="result" style="display:none;"></div>
+    </div>
+  </form>
+</div>
+
+<script>
+const errBox = document.getElementById('err');
+function showErr(e){
+  errBox.style.display='block';
+  errBox.textContent = 'Ошибка: ' + (e && (e.message||e.toString()));
+  console.error(e);
+}
+
+function getVal(name){ const el = document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:null; }
+
+function compute(){
+  try{
+    let s1=0,s2=0,s3=0;
+    let notes=[];
+    let reasons=[];
+    // Q1
+    if(getVal('q1')==='yes'){ s1+=2; s3+=1; reasons.push('Товар визуальный → видео и UGC заходят лучше'); }
+    else if(getVal('q1')==='no'){ s2+=1; reasons.push('Товар не визуальный → упор на персонализацию и бандлы'); }
+    // Q2
+    if(getVal('q2')==='yes'){ s1+=3; reasons.push('Есть 30–50 коротких видео → быстрый старт видеоленты'); }
+    else if(getVal('q2')==='no'){ reasons.push('Нет контента видео → потребуется продакшн или UGC-микс'); }
+    // Q3
+    if(getVal('q3')==='yes'){ s1+=2; reasons.push('Готовы на лайвы 1/нед → потенциал лайв-коммерса'); }
+    // Q4
+    if(getVal('q4')==='yes'){ s3+=2; reasons.push('Есть фото/видео-отзывы → база для UGC-слоя'); }
+    // Q5
+    if(getVal('q5')==='yes'){ s3+=2; reasons.push('Готовность поощрять активность → геймификация/миссии'); }
+    // Q6
+    if(getVal('q6')==='yes'){ s2+=2; s1+=1; reasons.push('Широкий каталог → бандлы/наборы и видео-гиды по категориям'); }
+    // Q7
+    if(getVal('q7')==='yes'){ s2+=3; reasons.push('Квиз возможен → AI-стилист/подборки дадут глубокий просмотр'); }
+    // Q8
+    if(getVal('q8')==='yes'){ s2+=2; reasons.push('Есть базовые данные → персонализация работает из коробки'); }
+    else if(getVal('q8')==='no'){ reasons.push('Нет базовых данных → начинаем со сбора предпочтений'); }
+    // Q9
+    if(getVal('q9')==='no'){ s1-=3; s2-=3; s3-=3; notes.push('Сначала ускорение сайта (LCP ≤ 2.5s, TTFB ≤ 0.8s, lazy/HLS/CDN)'); }
+    // Q10
+    if(getVal('q10')==='yes'){ s3+=2; reasons.push('Есть модератор → можно безопасно масштабировать UGC'); }
+    else if(getVal('q10')==='no'){ s3-=2; notes.push('Нет постоянной модерации → назначить ответственного/процесс'); }
+    // Q11
+    if(getVal('q11')==='yes'){ s1+=2; reasons.push('Есть 2–3 ч/нед на съемку → регулярное пополнение видеоленты'); }
+    else if(getVal('q11')==='no'){ reasons.push('Нет времени на съемку → делать UGC/студийные слоты раз в 2 недели'); }
+    // Q12
+    if(getVal('q12')==='yes'){ s3+=2; reasons.push('Строим сообщество → миссии/баллы/челленджи будут уместны'); }
+    // Q13
+    if(getVal('q13')==='no'){ notes.push('Нужен мини-трек аналитики engaged time (видимость вкладки, scroll/click, heartbeat 5с)'); }
+    // Q14
+    let q14=getVal('q14');
+    if(q14==='social'){ s1+=2; s3+=1; reasons.push('Трафик из соцсетей/видео → видеолента + социальные механики'); }
+    if(q14==='search'){ s2+=2; reasons.push('Трафик из поиска с намерением покупки → релевантность/подборки/бандлы'); }
+    if(q14==='direct'){ s3+=1; reasons.push('Прямой трафик/бренд → комьюнити и возвраты'); }
+
+    const scores=[{k:'S1 (видео/лайвы)',v:s1,code:'S1'},{k:'S2 (персонализация/квиз/бандлы)',v:s2,code:'S2'},{k:'S3 (UGC/геймификация)',v:s3,code:'S3'}];
+    scores.sort((a,b)=>b.v-a.v);
+    const top=scores[0].v;
+    const topKeys=scores.filter(s=>s.v===top);
+    const threshold = 6;
+    let rec='';
+    let recPlain='';
+    let chosen = topKeys.map(t=>t.code);
+
+    if(topKeys.length===1){
+      if(topKeys[0].code==='S1'){
+        rec = 'Начните с S1: шоппейбл-видеолента + 1 лайв/неделю. CTA «В корзину/В избранное», аналитика просмотр→ATC.';
+        recPlain = 'Начинаю с шоппейбл-видеоленты и еженедельных лайвов: CTA в плеере и аналитика «просмотр → добавление в корзину».';
+      } else if(topKeys[0].code==='S2'){
+        rec = 'Начните с S2: квиз/AI-стилист и авто-бандлы («весь образ/комплект»), затем рециркуляция подборок.';
+        recPlain = 'Начинаю с квиза/AI-стилиста и автосборки наборов («весь образ/комплект»), затем — рециркуляция подборок.';
+      } else {
+        rec = 'Начните с S3: UGC (образы, отзывы с фото/видео) + миссии/баллы; анти-фрод и ежедневная модерация.';
+        recPlain = 'Начинаю с UGC (образы, фото/видео-отзывы) и простых миссий с баллами; настраиваю модерацию и анти-фрод.';
+      }
+    } else if(topKeys.length===2){
+      const set = topKeys.map(t=>t.code).sort().join('+');
+      if(set==='S1+S2'){
+        rec = 'Ничья S1×S2: запустите квиз и персонализируйте видеоленту по ответам. Параллельно тестируйте бандлы.';
+        recPlain = 'Запускаю квиз и персонализирую видеоленту по ответам. Параллельно тестирую наборы/бандлы.';
+      } else if(set==='S2+S3'){
+        rec = 'Ничья S2×S3: квиз → личные подборки; UGC/миссии используйте для возвратов к этим подборкам.';
+        recPlain = 'Делаю квиз → личные подборки; UGC и миссии использую для возвратов к этим подборкам.';
+      } else {
+        rec = 'Ничья S1×S3: синхронизируйте лайвы и UGC: баллы за просмотр лайва/публикацию образов.';
+        recPlain = 'Синхронизирую лайвы и UGC: даю баллы за просмотр лайва и публикацию образов.';
+      }
+    } else {
+      rec = 'Паритет: начните с короткого спринта S2 (квиз/подборки), затем добавьте видеоленту и простые миссии.';
+      recPlain = 'Стартую с краткого спринта по персонализации (квиз/подборки), затем добавляю видеоленту и простые миссии.';
+      chosen = ['S2','S1','S3'];
+    }
+
+    let signal = (Math.max(s1,s2,s3) >= threshold) ? ' <span class="pill ok">Сильный сигнал ≥ '+threshold+'</span>' : '';
+
+    // Build 30/60/90 plan tailored
+    function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))); }
+    let plan0=[], plan30=[], plan60=[], plan90=[], risks=[];
+
+    // Pre-0 sprint
+    if(notes.find(n=>n.includes('ускорение'))){
+      plan0.push('2-недельный спринт ускорения: CDN/кэш, lazy-load, сжатие, HLS с адаптивным битрейтом, LCP ≤ 2.5s, TTFB ≤ 0.8s.');
+    }
+    if(notes.find(n=>n.includes('аналитики'))){
+      plan0.push('Включить метрики engaged time: видимость вкладки, scroll/click, heartbeat 5с; дешборды p50/p75/p90.');
+    }
+
+    // Strategy-specific tasks
+    if(chosen.includes('S1')){
+      plan30.push('MVP шоппейбл-видеоленты в 1–2 категориях (50–100 клипов), CTA в плеере (ATC/Save).');
+      plan30.push('Назначить контент-слоты 2–3 ч/нед; UGC-микс для экономии продакшна.');
+      if(getVal('q3')==='yes'){ plan30.push('Запланировать 1 лайв/неделю: сценарий, купоны, таймеры дефицита.'); }
+      plan60.push('A/B тест ленты против контроля; тюнинг рекомендаций по dwell time/сохранениям.');
+      plan90.push('Масштабировать ленту на топ-категории; 2–3 лайва/нед. Плейлисты «смотрите далее».');
+    }
+    if(chosen.includes('S2')){
+      plan30.push('MVP квиза/AI-стилиста (5–7 вопросов): стиль/бюджет/размер/бренды.');
+      plan30.push('Авто-бандлы («весь образ/комплект», cross-sell) на PDP/каталоге.');
+      plan60.push('Рециркуляция: «Чаще смотрят после…», «К этому образу подходят…» (персональная лента).');
+      plan90.push('Email/Push-реактивация к персональным подборкам; оптимизация AOV бандлов.');
+    }
+    if(chosen.includes('S3')){
+      plan30.push('UGC на PDP: фото/видео-отзывы, «образы»; простые миссии (просмотры, сохранения, отзывы).');
+      if(getVal('q10')!=='yes'){ plan30.push('Назначить модератора/процесс (ежедневно, SLA в часе).'); }
+      plan60.push('Еженедельные челленджи, уровни/бейджи; анти-фрод по баллам.');
+      plan90.push('Соцмеханики: борды/подборки, подписки на бренды/авторов, шеринг-потоки.');
+    }
+
+    // KPIs
+    const kpis = [];
+    if(chosen.includes('S1')){
+      kpis.push('Watch time/session, CTR оверлеев, CR video-view→ATC ≥ 5–8%.');
+    }
+    if(chosen.includes('S2')){
+      kpis.push('Quiz completion ≥ 60–70%, CTR персонал. рекомендаций, AOV бандлов +10–15%.');
+    }
+    if(chosen.includes('S3')){
+      kpis.push('UGC/session, L7/L28 return rate +5–10 п.п., share rate, redemption купонов.');
+    }
+    const guards = ['LCP ≤ 2.5s, TTFB ≤ 0.8s','Checkout CR не падает более чем на 1 п.п.','NPS/CSAT стабильны, жалобы в норме'];
+
+    // Risks
+    if(getVal('q2')==='no' && getVal('q11')==='no'){ risks.push('Дефицит видеоконтента → опора на UGC и пакетная съемка раз в 2 недели.'); }
+    if(getVal('q8')==='no'){ risks.push('Нет базовых данных → потребуется сбор предпочтений (размеры/бренды/бюджет).'); }
+    if(getVal('q10')==='no'){ risks.push('Нет ежедневной модерации → риск токсичного контента/спама.'); }
+
+    // Strategy names for pitch
+    const strategyName = { S1: 'шоппейбл-видеолента и еженедельные лайвы', S2: 'квиз/AI-стилист и наборы/бандлы', S3: 'UGC-слой, миссии и геймификация' };
+    const chosenNames = chosen.map(c=>strategyName[c]).filter(Boolean);
+
+    // Glossary
+    const glossary = [
+      ['Engaged time', 'минуты/секунды реального взаимодействия (вкладка видима + скроллы/клики/набор текста; idle > 30с не считаем)'],
+      ['Watch time', 'время просмотра видео в сессии/на ролик'],
+      ['CTA', 'призыв к действию (например, кнопка «В корзину», «Сохранить»)'],
+      ['ATC', 'Add To Cart — добавление в корзину'],
+      ['UGC', 'контент пользователей: фото, видео, обзоры, «образы»'],
+      ['Лайв-коммерс', 'прямые эфиры с возможностью купить в один клик во время трансляции'],
+      ['Бандлы/наборы', 'комплекты товаров, продаваемые вместе (увеличивают AOV)'],
+      ['Рециркуляция', 'переходы по «смотрите также», персональные ленты после товара'],
+      ['Dwell time', 'время удержания на экране/карточке/ролике'],
+      ['Feed (лента)', 'бесконечная или длинная лента карточек/видео'],
+      ['PDP', 'страница товара (Product Detail Page)'],
+      ['AOV', 'средний чек (Average Order Value)'],
+      ['LCP', 'Largest Contentful Paint — время появления основного контента'],
+      ['TTFB', 'Time To First Byte — время до первого байта ответа сервера'],
+      ['HLS', 'протокол потокового видео с адаптивным битрейтом'],
+      ['CDN', 'сеть доставки контента, ускоряет загрузку'],
+      ['Lazy-load', 'ленивая загрузка медиа/блоков по мере появления в вьюпорте'],
+      ['Stickiness (DAU/WAU)', 'клейкость — доля дневной аудитории от недельной'],
+      ['Retention L7/L28', 'удержание на 7/28 день после визита или покупки'],
+      ['Redemption', 'доля погашения купонов/баллов'],
+      ['Миссии/челленджи', 'малые задачи для пользователя с наградами'],
+      ['Анти-фрод', 'защита от накруток/злоупотреблений (баллы, отзывы, UGC)'],
+      ['Борды/коллекции', 'сохранённые подборки/образы пользователя'],
+      ['Плейлисты', 'последовательности видео/подборок с автопереходом'],
+      ['Heartbeat-пинг', 'технический сигнал каждые N секунд для подсчёта engaged time'],
+      ['Гард-метрики', 'охранные показатели (скорость, конверсия, жалобы), которые нельзя ухудшить'],
+      ['p50/p75/p90', 'медиана/75-й/90-й перцентиль метрики']
+    ];
+
+    // Summary HTML
+    const glossaryHTML = glossary.map(([t,d])=>`<div class="term"><b>${t}</b><span class="small">${d}</span></div>`).join('');
+    const html = `
+      <div class="kpi">
+        <div class="box"><div class="muted">S1 — видео/лайвы</div><div style="font-size:28px;font-weight:800;">${s1}</div></div>
+        <div class="box"><div class="muted">S2 — персонализация</div><div style="font-size:28px;font-weight:800;">${s2}</div></div>
+        <div class="box"><div class="muted">S3 — UGC/геймификация</div><div style="font-size:28px;font-weight:800;">${s3}</div></div>
+      </div>
+      <div class="hr"></div>
+      <div class="rec">${rec}${(Math.max(s1,s2,s3) >= threshold) ? ' <span class="pill ok">Сильный сигнал ≥ '+threshold+'</span>' : ''}</div>
+      ${notes.length ? ('<div class="hr"></div><div>'+notes.map(n=>'<span class="pill warn">'+n+'</span>').join(' ')+'</div>') : ''}
+      <div class="hr"></div>
+      <div class="section-title">Обоснование</div>
+      <ul>${reasons.map(r=>'<li>'+r+'</li>').join('')}</ul>
+      <div class="hr"></div>
+      <div class="section-title">План 30/60/90</div>
+      <div class="two-col">
+        <div>
+          <div class="section-title" style="font-weight:600;">До старта (Неделя 0–2)</div>
+          <ul>${(plan0.length?plan0:['—']).map(i=>'<li>'+i+'</li>').join('')}</ul>
+          <div class="section-title" style="font-weight:600;">Дни 1–30</div>
+          <ul>${(plan30.length?plan30:['—']).map(i=>'<li>'+i+'</li>').join('')}</ul>
+        </div>
+        <div>
+          <div class="section-title" style="font-weight:600;">Дни 31–60</div>
+          <ul>${(plan60.length?plan60:['—']).map(i=>'<li>'+i+'</li>').join('')}</ul>
+          <div class="section-title" style="font-weight:600;">Дни 61–90</div>
+          <ul>${(plan90.length?plan90:['—']).map(i=>'<li>'+i+'</li>').join('')}</ul>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="section-title">KPI и гард-метрики</div>
+      <ul>
+        <li><b>Engaged time p75:</b> +10–15 мин к 60 дню; к 180 дню — 30–45 мин в «залипательных» поверхностях.</li>
+        ${kpis.map(k=>'<li>'+k+'</li>').join('')}
+        ${guards.map(g=>'<li class="small">Гардианы: '+g+'</li>').join('')}
+      </ul>
+      ${risks.length ? ('<div class="hr"></div><div class="section-title">Риски и действия</div><ul>'+risks.map(r=>'<li>'+r+'</li>').join('')+'</ul>') : ''}
+      <div class="hr"></div>
+      <div class="section-title">Короткий питч (60–90 сек)</div>
+      <div class="small">Без упоминания "S1/S2/S3". Сформирован автоматически по вашим ответам.</div>
+      <div style="background:#0b1526;border:1px solid #192a44;border-radius:12px;padding:12px;margin-top:8px;">
+        <div id="pitch" class="small"></div>
+      </div>
+      <div class="hr"></div>
+      <details open>
+        <summary>Глоссарий терминов (быстрая подсказка)</summary>
+        ${glossaryHTML}
+      </details>
+    `;
+
+    // Build pitch (no S1/S2 wording)
+    function pitchText(){
+      const parts = [];
+      parts.push('«Цель — увеличить активное время сессии без просадки конверсии.');
+      if(notes.length){
+        parts.push('Сначала подготавливаю основу: '+notes.join('; ')+'.');
+      }
+      if(chosenNames.length){
+        parts.push('По ответам фокус на: '+chosenNames.join(', ')+'.');
+      }
+      parts.push(recPlain);
+      if(plan30.length){ parts.push('В первые 30 дней запускаю: '+uniq(plan30).join('; ')+'.'); }
+      if(plan60.length){ parts.push('На 31–60 дни: '+uniq(plan60).join('; ')+'.'); }
+      if(plan90.length){ parts.push('К 90 дню: '+uniq(plan90).join('; ')+'.'); }
+      const kpiLine = ['engaged time p75'].concat(kpis).join(', ');
+      parts.push('Ключевые метрики: '+kpiLine+'. Гард-метрики: '+guards.join(', ')+'».');
+      return parts.join(' ');
+    }
+
+    const out = document.getElementById('summary');
+    out.innerHTML = html;
+    out.style.display = 'block';
+    document.getElementById('pitch').innerText = pitchText();
+
+    return {
+      s1,s2,s3,notes,reasons,rec,recPlain,chosen,chosenNames,plan0,plan30,plan60,plan90,kpis,guards,
+      pitch: pitchText(), glossary
+    };
+  } catch(e){ showErr(e); throw e; }
+}
+
+function toMarkdown(res){
+  try{
+    function list(items){ return items && items.length ? items.map(i=>'- '+i).join('\n') : '- —'; }
+    const header = [
+      `S1 (видео/лайвы): ${res.s1}`,
+      `S2 (персонализация/квиз/бандлы): ${res.s2}`,
+      `S3 (UGC/геймификация): ${res.s3}`,
+      '',
+      `Рекомендация: ${res.rec}`,
+      res.notes.length ? ('Примечания: '+res.notes.join('; ')) : null
+    ].filter(Boolean).join('\n');
+
+    const glossaryMd = res.glossary.map(([t,d])=>`- **${t}.** ${d}`).join('\n');
+
+    const md = `# Структурированный ответ (e-commerce)\n\n${header}\n\n## Обоснование\n${list(res.reasons)}\n\n## План 30/60/90\n### До старта (Неделя 0–2)\n${list(res.plan0)}\n\n### Дни 1–30\n${list(res.plan30)}\n\n### Дни 31–60\n${list(res.plan60)}\n\n### Дни 61–90\n${list(res.plan90)}\n\n## KPI и гард-метрики\n${list(['Engaged time p75: +10–15 мин к 60 дню; к 180 дню — 30–45 мин',''].concat(res.kpis).concat(res.guards.map(g=>'Гардианы: '+g)))}\n\n## Риски и действия\n${list(res.notes.concat([]))}\n\n## Короткий питч (без S1/S2/S3)\n${res.pitch}\n\n## Глоссарий терминов\n${glossaryMd}\n`;
+    return md;
+  } catch(e){ showErr(e); throw e; }
+}
+
+document.getElementById('calc').addEventListener('click', ()=>{ try{ compute(); } catch(e){} });
+document.getElementById('reset').addEventListener('click', ()=>{
+  document.getElementById('form').reset();
+  const out = document.getElementById('summary'); out.style.display='none'; out.innerHTML='';
+  errBox.style.display='none'; errBox.textContent='';
+});
+document.getElementById('copy').addEventListener('click', ()=>{
+  try{
+    const res = compute();
+    const md = toMarkdown(res);
+    navigator.clipboard.writeText(md).then(()=>{
+      alert('Структурированный ответ скопирован как Markdown.');
+    });
+  } catch(e){}
+});
+document.getElementById('download').addEventListener('click', ()=>{
+  try{
+    const res = compute();
+    const md = toMarkdown(res);
+    const blob = new Blob([md], {type: 'text/markdown'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'structured_answer_ecommerce.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(e){}
+});
+
+// Live recompute on change
+document.getElementById('form').addEventListener('input', ()=>{
+  if(document.querySelector('input[type=radio]:checked')){
+    try{ compute(); } catch(e){}
+  }
+});
+</script>
+</body>
+</html>
